@@ -71,41 +71,62 @@ func isValid(_ input: String) throws {
     }
 }
 
-
-//실행화면
-func main() {
+//초기 화면
+func startGame() {
     let answer = RandomAnswer()
     
     print("<게임을 시작합니다>")
-    
+
     repeat {
-        print("숫자를 입력하세요")
+        print("숫자를 입력하세요: ", terminator: "")
         do {
             if let input = readLine() {
                 try isValid(input)
                 let hint = Hint(answer: answer, guess: input)
-                
-                if hint.strikes == 0 && hint.balls == 0 {
-                    print("Nothing")
-                } else{
-                    print("\(hint.strikes) 스트라이크, \(hint.balls) 볼")
-                }
-                
+
+                print("\(hint.strikes) 스트라이크, \(hint.balls) 볼")
+
                 if hint.strikes == 3 {
                     print("정답입니다!")
                     break
                 }
             }
         } catch gameError.invalidLength {
-            print("올바르지 않은 입력값입니다")
+            print("올바른 형식의 3자리 숫자를 입력하세요.")
         } catch gameError.duplicateDigits {
-            print("올바르지 않은 입력값입니다")
+            print("숫자가 중복되지 않은 3자리 숫자를 입력하세요.")
         } catch gameError.startwithZero {
-            print("올바르지 않은 입력값입니다")
+            print("첫 번째 자리는 0이 될 수 없습니다. 3자리 숫자를 입력하세요.")
+        } catch gameError.nonNumeric {
+            print("숫자가 아닌 문자를 사용하지 마세요.")
         } catch {
-            print("알 수 없는 오류 발생")
+            print("알 수 없는 오류가 발생했습니다.")
         }
     } while true
 }
 
-main()
+func mainMenu() {
+    print("1. 게임 시작하기")
+    print("2. 게임 기록 보기")
+    print("3. 종료하기")
+
+    if let choice = readLine(), let menuChoice = Int(choice) {
+        switch menuChoice {
+        case 1:
+            startGame()
+        case 2:
+            print("게임을 종료합니다.")
+            exit(0)
+        default:
+            print("게임을 종료합니다.")
+            exit(0)
+        }
+    } else {
+        print("올바른 메뉴를 선택하세요.")
+    }
+
+    mainMenu()
+}
+
+// 시작점: mainMenu 호출
+mainMenu()
