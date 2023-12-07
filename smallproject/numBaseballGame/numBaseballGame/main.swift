@@ -29,7 +29,7 @@ func RandomAnswer() -> String {
     return randomString
 }
 
-//스트라이크, 볼 판별하는 기능
+//스트라이크, 볼, 시도 횟수 판별하는 기능
 func Hint(answer: String, guess: String) -> (strikes: Int, balls: Int) {
     var strikes = 0
     var balls = 0
@@ -71,7 +71,7 @@ func isValid(_ input: String) throws {
     }
 }
 
-//초기 화면
+//게임 실행 화면
 func startGame() {
     let answer = RandomAnswer()
     
@@ -105,6 +105,7 @@ func startGame() {
     } while true
 }
 
+//초기 화면
 func mainMenu() {
     print("1. 게임 시작하기")
     print("2. 게임 기록 보기")
@@ -122,7 +123,7 @@ func mainMenu() {
             exit(0)
         }
     } else {
-        print("올바른 메뉴를 선택하세요.")
+        print("올바른 숫자를 선택하세요.")
     }
 
     mainMenu()
