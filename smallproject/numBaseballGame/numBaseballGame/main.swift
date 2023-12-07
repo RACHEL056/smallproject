@@ -3,20 +3,21 @@
 //  numBaseballGame
 //
 //  Created by 박민정 on 2023/12/05.
-//
+
 import Foundation
 
 //에러처리
 enum gameError : Error {
     case invalidLength //3자리 이상의 수 입력한 경우
     case duplicateDigits //중복된 숫자 들어올 경우
-    case containZero //0을 가지고 있는 경우
+//    case containZero //0을 가지고 있는 경우
     case nonNumeric //문자 들어올 경우
+    case startwithZero //0으로 시작하는 경우
 }
 
 //랜덤으로 답 만드는 기능
 func RandomAnswer() -> String {
-    var digits = Set<Character>("123456789")
+    var digits = Set<Character>("0123456789")
     var randomString = ""
     
     for _ in 0..<3 {
@@ -61,12 +62,12 @@ func isValid(_ input: String) throws {
         throw gameError.duplicateDigits
     }
     
-    guard !input.contains("0") else {
-        throw gameError.containZero
-    }
-    
     guard let _ = Int(input) else {
         throw gameError.nonNumeric
+    }
+    
+    guard !input.hasPrefix("0") else {
+        throw gameError.startwithZero
     }
 }
 
@@ -99,7 +100,7 @@ func main() {
             print("올바르지 않은 입력값입니다")
         } catch gameError.duplicateDigits {
             print("올바르지 않은 입력값입니다")
-        } catch gameError.containZero {
+        } catch gameError.startwithZero {
             print("올바르지 않은 입력값입니다")
         } catch {
             print("알 수 없는 오류 발생")
