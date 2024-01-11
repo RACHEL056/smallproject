@@ -11,7 +11,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let message = "추가할 task를 입력하세요"
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
-        alert.addTextField(){ (tf) in
+        alert.addTextField() { (tf) in
             tf.placeholder = "할 일"
         }
         
@@ -22,14 +22,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         let cancel = UIAlertAction(title: "취소", style: .cancel)
         //추가 후 데이터 리스트에 저장
-        let add = UIAlertAction(title: "추가", style: .default) {
+        let add = UIAlertAction(title: "추가", style: .default) { [self]
             (_) in
             let newtask = alert.textFields?[0]
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             let dateString = dateFormatter.string(from: datePicker.date)
             
-            datas.append(List(title: newtask!.text ?? "",date: dateString))
+            datas.append(List(title: newtask!.text ?? "",date: dateString, complete: false))
             self.tableView.reloadData()
             }
         
@@ -47,7 +47,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 200
     }
     
@@ -66,9 +65,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! ListCell
         
         let thiscell = datas[indexPath.row]
-       cell.todotitle.text = thiscell.title
        cell.todoDate.text = thiscell.date
- 
+       cell.setTask(datas[indexPath.row])
+       
         return cell
     }
     
@@ -83,6 +82,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             tableView.endUpdates()
         }
     }
-    
+}
+
+//취소선 긋는 확장자
+extension String {
+    func strikeThrough() -> NSAttributedString {
+        let attributeString = NSMutableAttributedString(string: self)
+        attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, attributeString.length))
+        return attributeString
+    }
 }
 
