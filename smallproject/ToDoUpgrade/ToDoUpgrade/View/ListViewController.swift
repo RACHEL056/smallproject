@@ -129,6 +129,43 @@ class ListViewController: UIViewController,UITableViewDelegate, UITableViewDataS
         }
     }
     
+    //수정하는 스와이프
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let editAction = UIContextualAction(style: .normal, title: "수정") { [weak self] (_, _, completionHandler) in
+            // "수정" 버튼을 눌렀을 때의 동작을 여기에 추가
+            self?.editCell(at: indexPath)
+            completionHandler(true)
+        }
+
+        editAction.backgroundColor = .blue
+
+        return UISwipeActionsConfiguration(actions: [editAction])
+    }
+    
+    func editCell(at indexPath: IndexPath) {
+        let alertController = UIAlertController(title: "수정", message: "할 일을 수정하세요", preferredStyle: .alert)
+            
+            alertController.addTextField { textField in
+                textField.placeholder = "수정된 할 일"
+                textField.text = datas[indexPath.row].title
+            }
+            
+            let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+            
+            let saveAction = UIAlertAction(title: "저장", style: .default) { [weak self] _ in
+                if let updatedTitle = alertController.textFields?.first?.text {
+                    // 사용자가 입력한 내용으로 할 일을 업데이트
+                    datas[indexPath.row].title = updatedTitle
+                    self?.updateUserDefaults()
+                    self?.tableView.reloadData()
+                }
+            }
+            
+            alertController.addAction(cancelAction)
+            alertController.addAction(saveAction)
+            
+            present(alertController, animated: true, completion: nil)
+    }
     
     func updateUserDefaults() {
         if let encodedData = try? JSONEncoder().encode(datas) {
