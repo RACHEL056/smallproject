@@ -48,6 +48,9 @@
                                                         <segment title="" image="person.fill.checkmark" catalog="system"/>
                                                         <segment title="" image="person.fill.xmark" catalog="system"/>
                                                     </segments>
+                                                    <connections>
+                                                        <action selector="segmentChanged:" destination="eK6-h7-v8v" eventType="valueChanged" id="cV5-9U-UPD"/>
+                                                    </connections>
                                                 </segmentedControl>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OEU-el-Qhe">
                                                     <rect key="frame" x="34" y="48.666666666666657" width="41.333333333333343" height="20.333333333333343"/>
@@ -65,6 +68,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="todoComplete" destination="GSD-a4-OaZ" id="obf-3b-aJR"/>
                                             <outlet property="todoDate" destination="OEU-el-Qhe" id="g7o-np-bve"/>
                                             <outlet property="todotitle" destination="Zi8-tB-QfR" id="vl6-H3-Mxv"/>
                                         </connections>
@@ -90,7 +94,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-167.17557251908397" y="-54.225352112676056"/>
+            <point key="canvasLocation" x="-100" y="-92"/>
         </scene>
     </scenes>
     <resources>
